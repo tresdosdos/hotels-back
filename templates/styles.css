@@ -1,0 +1,13 @@
+body {
+    font-family: "Arial Narrow", sans-serif;
+}
+
+.header {
+    color: #f00;
+    font-size: 300%;
+}
+
+.link {
+    color: #1800c9;
+    font-size: 200%;
+}
