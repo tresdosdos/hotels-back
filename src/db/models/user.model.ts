@@ -1,11 +1,11 @@
+import * as _ from 'lodash';
 import {
   AllowNull,
   BelongsTo,
   Column,
-  CreatedAt,
+  CreatedAt, DataType,
   ForeignKey, HasMany,
   IsEmail,
-  Length,
   Model,
   Table,
   Unique,
@@ -15,6 +15,7 @@ import {
 import ExternalUser from './external-user.model';
 import LocalUser from './local-user.model';
 import Hotel from './hotel.model';
+import {UserRole} from '../../user/user-role.enum';
 
 @Table({tableName: 'user'})
 export default class User extends Model<User> {
@@ -39,13 +40,9 @@ export default class User extends Model<User> {
   @Column
   email: string;
 
-  @Unique
-  @Length({max: 30})
-  @Column
-  username: string;
-
-  @Column
-  avatar: string;
+  @AllowNull(false)
+  @Column({type: DataType.ENUM, values: _.values(UserRole)})
+  role: UserRole;
 
   @CreatedAt
   createdAt: Date;

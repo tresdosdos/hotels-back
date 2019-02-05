@@ -9,6 +9,7 @@ import {
   UserExistsError,
 } from '../utils/errors';
 import { Symbols } from '../symbols';
+import {UserRole} from './user-role.enum';
 
 @Injectable()
 export class UserService {
@@ -47,23 +48,28 @@ export class UserService {
 
     try {
       if (!foundUser) {
-        const savedLocalUser = await newLocalUser.save();
+        let savedLocalUser = await newLocalUser.save();
+        savedLocalUser = savedLocalUser.toJSON();
+
         const newUser = new this.user({
-          localUserId: savedLocalUser.toJSON().id,
+          localUserId: savedLocalUser.id,
           email: user.email,
+          role: UserRole.GUEST,
         });
         const savedUser = await newUser.save();
 
-        return Object.assign(savedLocalUser.toJSON(), savedUser.toJSON());
+        return Object.assign(savedLocalUser, savedUser.toJSON());
       }
 
       if (!foundUser.toJSON().localUserId) {
-        const savedLocalUser = await newLocalUser.save();
+        let savedLocalUser = await newLocalUser.save();
+        savedLocalUser = savedLocalUser.toJSON();
+
         const updatedUser = await foundUser.update({
-          localUserId: savedLocalUser.toJSON().id,
+          localUserId: savedLocalUser.id,
         });
 
-        return Object.assign(savedLocalUser.toJSON(), updatedUser.toJSON());
+        return Object.assign(savedLocalUser, updatedUser.toJSON());
       }
 
       throw new UserExistsError();
@@ -154,6 +160,7 @@ export class UserService {
         const user = new this.user({
           email,
           externalUserId: savedExternalUser.toJSON().id,
+          role: UserRole.GUEST,
         });
         const savedUser = await user.save();
 

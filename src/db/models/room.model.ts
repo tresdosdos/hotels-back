@@ -3,7 +3,7 @@ import {
   BelongsTo,
   Column,
   DataType,
-  ForeignKey, HasMany,
+  ForeignKey, HasMany, Is,
   Model,
   Table,
   Unique,
@@ -23,6 +23,9 @@ export default class Room extends Model<Room> {
 
   @Unique
   @AllowNull(false)
+  @Is('number bigger than 1', (val: number) => {
+    return +val > 1;
+  })
   @Column({type: DataType.SMALLINT(5)})
   number: number;
 }

@@ -3,7 +3,7 @@ import {
   BelongsTo,
   Column,
   DataType,
-  ForeignKey, HasMany,
+  ForeignKey, HasMany, Is,
   Model,
   Table,
   Unique,
@@ -27,6 +27,9 @@ export default class Floor extends Model<Floor> {
 
   @Unique
   @AllowNull(false)
+  @Is('number bigger than 1', (val: number) => {
+    return +val > 1;
+  })
   @Column({type: DataType.NUMERIC})
   level: number;
 }

@@ -1,23 +1,21 @@
 import * as bcrypt from 'bcrypt';
 import * as _ from 'lodash';
-import { Strategy } from 'passport-local';
-import { PassportStrategy } from '@nestjs/passport';
-import { Inject, Injectable } from '@nestjs/common';
+import {Strategy} from 'passport-local';
+import {PassportStrategy} from '@nestjs/passport';
+import {Inject, Injectable} from '@nestjs/common';
 
-import { User, LocalUser } from '../../db/models';
+import {User, LocalUser} from '../../db/models';
 import {
   AccountConfirmError,
   InvalidCredentialsError,
   InvalidEmailError,
 } from '../../utils/errors';
-import { Symbols } from '../../symbols';
+import {Symbols} from '../../symbols';
 
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {
-  constructor(
-    @Inject(Symbols.User) private user: typeof User,
-    @Inject(Symbols.LocalUser) private localUser: typeof LocalUser,
-  ) {
+  constructor(@Inject(Symbols.User) private user: typeof User,
+              @Inject(Symbols.LocalUser) private localUser: typeof LocalUser) {
     super({
       usernameField: 'email',
       passwordField: 'password',
@@ -27,7 +25,7 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
 
   async validate(email, password) {
     let foundUser = await this.user.findOne({
-      where: { email },
+      where: {email},
       include: [this.localUser],
     });
 

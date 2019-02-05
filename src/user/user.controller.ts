@@ -24,6 +24,7 @@ import {
   NoLocalAccountError,
 } from '../utils/errors';
 import { GoogleGuard, JwtGuard, LinkedinGuard, GithubGuard, LocalGuard } from './guards';
+import {UserSystems} from './user-systems.enum';
 
 @Controller('user')
 export class UserController {
@@ -45,7 +46,7 @@ export class UserController {
   async googleAuthCallback(@Req() req, @Res() res) {
     const user = await this.userService.createExternalUser(
       req.user.email,
-      'google',
+      UserSystems.GOOGLE,
     );
     const token = await this.jwtService.generateUserToken({ user });
 
@@ -61,7 +62,7 @@ export class UserController {
   async linkedinAuthCallback(@Req() req, @Res() res) {
     const user = await this.userService.createExternalUser(
       req.user.email,
-      'linkedin',
+      UserSystems.LINKEDIN,
     );
     const token = await this.jwtService.generateUserToken({ user });
 
@@ -77,7 +78,7 @@ export class UserController {
   async githubAuthCallback(@Req() req, @Res() res) {
     const user = await this.userService.createExternalUser(
       req.user.email,
-      'github',
+      UserSystems.GITHUB,
     );
     const token = await this.jwtService.generateUserToken({ user });
 
