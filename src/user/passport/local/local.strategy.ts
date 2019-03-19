@@ -4,13 +4,13 @@ import { Strategy } from 'passport-local';
 import { PassportStrategy } from '@nestjs/passport';
 import { Inject, Injectable } from '@nestjs/common';
 
-import { User, LocalUser } from '../../db/models';
+import { User, LocalUser } from '../../../db/models';
+import { Symbols } from '../../../symbols';
 import {
   AccountConfirmError,
   InvalidCredentialsError,
   InvalidEmailError,
-} from '../../utils/errors';
-import { Symbols } from '../../symbols';
+} from '../../../utils/errors';
 
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {
@@ -27,7 +27,7 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
 
   async validate(email, password) {
     let foundUser = await this.user.findOne({
-      where: { email },
+      where: {email},
       include: [this.localUser],
     });
 

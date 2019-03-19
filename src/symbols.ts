@@ -4,6 +4,6 @@ export const Symbols = {
   LocalUser: Symbol('LocalUser'),
   ExternalUser: Symbol('ExternalUser'),
   Hotel: Symbol('Hotel'),
-  Floor: Symbol('Floor'),
+  Rent: Symbol('Rent'),
   Room: Symbol('Room'),
 };

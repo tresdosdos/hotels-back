@@ -1,15 +1,10 @@
 import { Strategy } from 'passport-github';
 import { PassportStrategy } from '@nestjs/passport';
-import { Inject, Injectable } from '@nestjs/common';
-
-import { User, LocalUser } from '../../db/models';
-import { Symbols } from '../../symbols';
+import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class GithubStrategy extends PassportStrategy(Strategy) {
   constructor(
-    @Inject(Symbols.User) private user: typeof User,
-    @Inject(Symbols.ExternalUser) private externalUser: typeof LocalUser,
   ) {
     super({
       clientID: process.env.GITHUB_ID,

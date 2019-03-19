@@ -1,15 +1,10 @@
 import { OAuth2Strategy } from 'passport-google-oauth';
 import { PassportStrategy } from '@nestjs/passport';
-import { Inject, Injectable } from '@nestjs/common';
-
-import { User, LocalUser } from '../../db/models';
-import { Symbols } from '../../symbols';
+import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class GoogleStrategy extends PassportStrategy(OAuth2Strategy) {
   constructor(
-    @Inject(Symbols.User) private user: typeof User,
-    @Inject(Symbols.ExternalUser) private externalUser: typeof LocalUser,
   ) {
     super({
       clientID: process.env.GOOGLE_ID,

@@ -2,8 +2,8 @@ import { Strategy } from 'passport-linkedin-oauth2';
 import { PassportStrategy } from '@nestjs/passport';
 import { Inject, Injectable } from '@nestjs/common';
 
-import { User, LocalUser } from '../../db/models';
-import { Symbols } from '../../symbols';
+import { User, LocalUser } from '../../../db/models';
+import { Symbols } from '../../../symbols';
 
 @Injectable()
 export class LinkedinStrategy extends PassportStrategy(Strategy) {

@@ -11,7 +11,7 @@ import {
     UpdatedAt,
 } from 'sequelize-typescript';
 import User from './user.model';
-import Floor from './floor.model';
+import Room from './room.model';
 
 @Table({ tableName: 'hotel' })
 export default class Hotel extends Model<Hotel> {
@@ -23,14 +23,17 @@ export default class Hotel extends Model<Hotel> {
     @BelongsTo(() => User)
     user: User;
 
-    @HasMany(() => Floor)
-    floors: Floor[];
+    @HasMany(() => Room)
+    rooms: Room[];
 
     @Unique
     @Length({ max: 50 })
     @AllowNull(false)
     @Column
     name: string;
+
+    @Column
+    address: string;
 
     @Column
     photo: string;

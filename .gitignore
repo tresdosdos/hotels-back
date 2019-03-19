@@ -4,3 +4,5 @@ package-lock.json
 .env
 dist
 server.js
+settings.json
+.vscode

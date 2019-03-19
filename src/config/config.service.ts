@@ -9,7 +9,7 @@ export class ConfigService {
   @Expose() public DB_HOST: string;
   @Expose() public DB_NAME: string;
   @Expose() public DB_PORT: number;
-  @Expose() public DB_SYNC: boolean;
+  @Expose() public DB_SYNC: number;
   @Expose() public JWT_SECRET: string;
   @Expose() public EMAIL_PORT: number;
   @Expose() public EMAIL_HOST: string;

@@ -1,5 +1,6 @@
-import { Hotel, Floor, Room } from './models';
+import { Hotel, Room } from './models';
 import { Symbols } from '../symbols';
+import Rent from './models/rent.model';
 
 export const hotelProviders = [
     {
@@ -7,11 +8,11 @@ export const hotelProviders = [
         useValue: Hotel,
     },
     {
-        provide: Symbols.Floor,
-        useValue: Floor,
-    },
-    {
         provide: Symbols.Room,
         useValue: Room,
+    },
+    {
+        provide: Symbols.Rent,
+        useValue: Rent,
     },
 ];

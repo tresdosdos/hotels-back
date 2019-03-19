@@ -7,9 +7,12 @@ import { UserModule } from './user';
 import { JwtMiddleware } from './middleware';
 
 @Module({
-  imports: [DbModule, UserModule],
   controllers: [AppController],
   providers: [AppService],
+  imports: [
+    DbModule,
+    UserModule.forRoot(),
+  ],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

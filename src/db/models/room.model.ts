@@ -1,28 +1,38 @@
 import {
-  AllowNull,
-  BelongsTo,
-  Column,
-  DataType,
-  ForeignKey, HasMany,
-  Model,
-  Table,
-  Unique,
+    AllowNull,
+    BelongsTo, BelongsToMany,
+    Column,
+    DataType,
+    ForeignKey, HasMany,
+    Model,
+    Table,
+    Unique,
 } from 'sequelize-typescript';
-
-import Floor from './floor.model';
+import Hotel from './hotel.model';
+import Rent from './rent.model';
+import User from './user.model';
 
 @Table({tableName: 'room'})
 export default class Room extends Model<Room> {
-  @ForeignKey(() => Floor)
-  @AllowNull(false)
-  @Column
-  floorId: number;
+    @ForeignKey(() => Hotel)
+    hotelId: number;
 
-  @BelongsTo(() => Floor)
-  floor: Floor;
+    @BelongsTo(() => Hotel)
+    hotel: number;
 
-  @Unique
-  @AllowNull(false)
-  @Column({type: DataType.SMALLINT(5)})
-  number: number;
+    @BelongsToMany(() => User, () => Rent)
+    users: User[];
+
+    @AllowNull(false)
+    @Column
+    floor: number;
+
+    @Unique
+    @AllowNull(false)
+    @Column({type: DataType.NUMERIC(5)})
+    number: number;
+
+    @AllowNull(false)
+    @Column
+    cost: number;
 }

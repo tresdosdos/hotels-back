@@ -7,7 +7,8 @@
     "no-unused-expression": true
   },
   "rules": {
-    "eofline": false,
+    "whitespace": [true, "check-module"],
+    "eofline": true,
     "indent": [true, "spaces", 2],
     "quotemark": [
         true,
