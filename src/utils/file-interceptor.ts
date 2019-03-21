@@ -9,7 +9,7 @@ const localOptions = {
   storage: cloudinaryStorage({
     cloudinary,
     folder: 'avatars',
-    allowedFormats: ['jpg', 'png', 'gif'],
+    allowedFormats: ['jpg', 'png', 'gif', 'jpeg'],
     filename: (req, file, callback) => callback(undefined, uuid()),
   }),
 };

@@ -46,7 +46,7 @@ export class EmailService {
   public sendResetMail(request) {
     const { email } = request;
     const token = this.jwtService.generateResetToken({ user: { email } });
-    const link = `${this.config.CLIENT_URL}/reset/${token}`;
+    const link = `${this.config.CLIENT_URL}/reset-password/${token}`;
     let templatePath;
 
     if (process.env.NODE_ENV === 'development') {

@@ -44,7 +44,7 @@ export class LocalStrategyController {
     async resetPassword(@Req() req, @Res() res) {
         const {password, username} = req.body;
 
-        if (!password && !username) {
+        if (!req.body) {
             throw new BadRequestError();
         }
 
@@ -56,7 +56,7 @@ export class LocalStrategyController {
 
         if (password) {
             user = await this.userService.changePassword(req.user.email, password);
-        } else if (username) {
+        } else {
             user = await this.userService.changeUsername(req.user.email, username);
         }
 
@@ -82,7 +82,7 @@ export class LocalStrategyController {
         const user = await this.userService.getByEmail(email);
 
         if (!user) {
-            throw new InvalidEmailError();
+            throw new NoLocalAccountError();
         }
 
         try {
