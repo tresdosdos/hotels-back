@@ -12,6 +12,7 @@ import {
 } from 'sequelize-typescript';
 import User from './user.model';
 import Room from './room.model';
+import Image from './image.model';
 
 @Table({ tableName: 'hotel' })
 export default class Hotel extends Model<Hotel> {
@@ -26,6 +27,9 @@ export default class Hotel extends Model<Hotel> {
     @HasMany(() => Room)
     rooms: Room[];
 
+    @HasMany(() => Image)
+    images: Image[];
+
     @Unique
     @Length({ max: 50 })
     @AllowNull(false)
@@ -34,9 +38,6 @@ export default class Hotel extends Model<Hotel> {
 
     @Column
     address: string;
-
-    @Column
-    photo: string;
 
     @CreatedAt
     createdAt: Date;

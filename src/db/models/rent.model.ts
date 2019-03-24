@@ -1,5 +1,6 @@
 import {
-    Column, DataType,
+    AllowNull,
+    Column,
     ForeignKey,
     Model,
     Table,
@@ -15,9 +16,11 @@ export default class Rent extends Model<Rent> {
     @ForeignKey(() => User)
     userId: number;
 
-    @Column({type: DataType.TIME})
+    @AllowNull(false)
+    @Column
     startDate: Date;
 
-    @Column({type: DataType.TIME})
+    @AllowNull(false)
+    @Column
     endDate: Date;
 }

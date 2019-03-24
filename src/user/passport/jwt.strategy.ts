@@ -3,7 +3,7 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
 import { Inject, Injectable } from '@nestjs/common';
 
-import { User, LocalUser } from '../../db/models';
+import { User, LocalUser, ExternalUser, Image } from '../../db/models';
 import { JsonWebTokenError } from '../../utils/errors';
 import { Symbols } from '../../symbols';
 
@@ -12,6 +12,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
     @Inject(Symbols.User) private user: typeof User,
     @Inject(Symbols.LocalUser) private localUser: typeof LocalUser,
+    @Inject(Symbols.ExternalUser) private externalUser: typeof ExternalUser,
+    @Inject(Symbols.Image) private image: typeof Image,
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromHeader('authorization'),
@@ -22,7 +24,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   async validate(payload) {
     let foundUser = await this.user.findOne({
       where: { email: payload.user.email },
-      include: [this.localUser],
+      include: [this.localUser, this.externalUser, this.image],
     });
 
     if (!foundUser) {

@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 import { Inject, Injectable } from '@nestjs/common';
 
-import { User, LocalUser, ExternalUser } from '../db/models';
+import { User, LocalUser, ExternalUser, Image } from '../db/models';
 import {
   BadRequestError,
   InvalidEmailError, InvalidUsernameError,
@@ -9,6 +9,7 @@ import {
   UserExistsError,
 } from '../utils/errors';
 import { Symbols } from '../symbols';
+import {ImageService} from '../services/image.service';
 
 @Injectable()
 export class UserService {
@@ -16,6 +17,8 @@ export class UserService {
     @Inject(Symbols.User) private user: typeof User,
     @Inject(Symbols.LocalUser) private localUser: typeof LocalUser,
     @Inject(Symbols.ExternalUser) private externalUser: typeof ExternalUser,
+    @Inject(Symbols.Image) private image: typeof Image,
+    private imageService: ImageService,
   ) {}
 
   public async getById(id) {
@@ -190,14 +193,23 @@ export class UserService {
     }
   }
 
-  public async updateAvatar(email: string, avatar: string) {
-    const user = await this.user.findOne({
-      where: { email },
-      include: [this.localUser.scope('public')],
+  public async updateAvatar(id: number, {url, imageId}) {
+    let user = await this.user.findOne({
+      where: { id },
+      include: [this.localUser.scope('public'), this.image],
       rejectOnEmpty: new JsonWebTokenError(),
     });
 
-    await user.update({ avatar: avatar || null });
+    user = user.toJSON();
+    let image: Image | null = null;
+
+    if (url) {
+      image = await this.imageService.save({userId: user.id}, url);
+      user.avatar = image.toJSON();
+    } else {
+      await this.imageService.delete(imageId);
+      user.avatar = null;
+    }
 
     return user;
   }

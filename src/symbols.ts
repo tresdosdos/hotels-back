@@ -6,4 +6,5 @@ export const Symbols = {
   Hotel: Symbol('Hotel'),
   Rent: Symbol('Rent'),
   Room: Symbol('Room'),
+  Image: Symbol('Image'),
 };

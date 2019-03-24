@@ -1,6 +1,5 @@
-import { Hotel, Room } from './models';
+import { Hotel, Room, Rent, Image } from './models';
 import { Symbols } from '../symbols';
-import Rent from './models/rent.model';
 
 export const hotelProviders = [
     {
@@ -14,5 +13,9 @@ export const hotelProviders = [
     {
         provide: Symbols.Rent,
         useValue: Rent,
+    },
+    {
+        provide: Symbols.Image,
+        useValue: Image,
     },
 ];

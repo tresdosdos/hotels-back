@@ -3,10 +3,10 @@ import {
     BelongsTo, BelongsToMany,
     Column,
     CreatedAt,
-    ForeignKey, HasMany,
+    ForeignKey, HasMany, HasOne,
     IsEmail,
     Length,
-    Model,
+    Model, Sequelize,
     Table,
     Unique,
     UpdatedAt,
@@ -17,6 +17,7 @@ import LocalUser from './local-user.model';
 import Hotel from './hotel.model';
 import Rent from './rent.model';
 import Room from './room.model';
+import Image from './image.model';
 
 @Table({tableName: 'user'})
 export default class User extends Model<User> {
@@ -31,6 +32,9 @@ export default class User extends Model<User> {
 
   @BelongsTo(() => LocalUser)
   localUser: LocalUser;
+
+  @HasOne(() => Image)
+  avatar: Image;
 
   @BelongsToMany(() => Room, () => Rent)
   rooms: Room[];
@@ -48,9 +52,6 @@ export default class User extends Model<User> {
   @Length({max: 30})
   @Column
   username: string;
-
-  @Column
-  avatar: string;
 
   @CreatedAt
   createdAt: Date;

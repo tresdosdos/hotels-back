@@ -25,7 +25,10 @@ export class UserController {
   @UseGuards(JwtGuard)
   @UseInterceptors(FileUploadInterceptor)
   async updateAvatar(@UploadedFile() file, @Req() req, @Res() res) {
-    const user = await this.userService.updateAvatar(req.user.email, file && file.secure_url);
+    const user = await this.userService.updateAvatar(req.user.id, {
+      url: file && file.secure_url,
+      imageId: !file && req.body.id,
+    });
 
     res.send(user);
   }
