@@ -39,6 +39,10 @@ export default class Hotel extends Model<Hotel> {
     @Column
     address: string;
 
+    @AllowNull(false)
+    @Column
+    city: string;
+
     @CreatedAt
     createdAt: Date;
 
