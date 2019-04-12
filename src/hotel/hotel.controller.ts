@@ -1,7 +1,21 @@
-import {Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Req, Res, UseGuards} from '@nestjs/common';
+import {
+    Body,
+    Controller,
+    Delete,
+    Get,
+    Param,
+    ParseIntPipe,
+    Post,
+    Put,
+    Req,
+    Res, UploadedFile,
+    UseGuards,
+    UseInterceptors
+} from '@nestjs/common';
 import {JwtGuard} from '../user/guards';
 import {HotelService} from './hotel.service';
 import {IHotel} from './interfaces';
+import {FileUploadInterceptor} from '../utils';
 
 @Controller('hotel')
 @UseGuards(JwtGuard)
@@ -33,12 +47,21 @@ export class HotelController {
     }
 
     @Put()
-    public updateHotel(@Body('hotel') hotel: IHotel) {
+    public updateHotel(@Body() hotel: IHotel) {
         return this.hotelService.update(hotel);
     }
 
     @Delete(':id')
-    public deleteHotel(@Param() param) {
-        return this.hotelService.delete(param.id);
+    public deleteHotel(@Param('id', new ParseIntPipe()) id) {
+        return this.hotelService.delete(id);
+    }
+
+    @Post(':id/photo')
+    @UseInterceptors(FileUploadInterceptor)
+    public uploadPhoto(
+        @Param('id', new ParseIntPipe()) id,
+        @UploadedFile() file,
+    ) {
+        return this.hotelService.uploadPhoto(id, file.secure_url);
     }
 }

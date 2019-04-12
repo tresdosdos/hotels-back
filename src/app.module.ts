@@ -5,6 +5,7 @@ import { DbModule } from './db';
 import { UserModule } from './user';
 import { JwtMiddleware } from './middleware';
 import { HotelModule } from './hotel/hotel.module';
+import { RoomModule } from './room/room.module';
 
 @Module({
   controllers: [AppController],
@@ -13,6 +14,7 @@ import { HotelModule } from './hotel/hotel.module';
     DbModule,
     UserModule.forRoot(),
     HotelModule,
+    RoomModule,
   ],
 })
 export class AppModule implements NestModule {

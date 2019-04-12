@@ -2,7 +2,7 @@ import {
     AllowNull,
     BelongsTo,
     Column,
-    CreatedAt,
+    CreatedAt, DataType,
     ForeignKey, HasMany,
     Length,
     Model,

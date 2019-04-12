@@ -21,9 +21,6 @@ export default class Room extends Model<Room> {
     @BelongsTo(() => Hotel)
     hotel: number;
 
-    @HasMany(() => Image)
-    images: Image[];
-
     @BelongsToMany(() => User, () => Rent)
     users: User[];
 
@@ -36,7 +33,6 @@ export default class Room extends Model<Room> {
     @Column({type: DataType.NUMERIC(5)})
     number: number;
 
-    @Unique
     @AllowNull(false)
     @Column({type: DataType.NUMERIC(1)})
     numberOfPlaces: number;

@@ -17,12 +17,6 @@ export default class Image extends Model<Image> {
     @BelongsTo(() => Hotel)
     hotel: Hotel;
 
-    @ForeignKey(() => Room)
-    roomId: number;
-
-    @BelongsTo(() => Room)
-    room: Room;
-
     @ForeignKey(() => User)
     userId: number;
 
