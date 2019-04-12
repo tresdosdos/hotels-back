@@ -6,20 +6,11 @@
   "license": "MIT",
   "scripts": {
     "format": "tslint --fix --project .",
-    "start": "node server.js",
-    "start:dev": "set NODE_ENV=dev&& nodemon",
-    "start:debug": "nodemon --config nodemon-debug.json",
-    "prestart:prod": "rimraf dist && tsc",
-    "start:prod": "set NODE_ENV=prod&& node dist/main.js",
-    "start:hmr": "node dist/server",
-    "lint": "tslint -p tsconfig.json -c tslint.json",
+    "start:prod": "node server.js",
+    "start": "set NODE_ENV=dev&& nodemon",
     "test": "jest",
-    "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
-    "test:e2e": "jest --config ./test/jest-e2e.json",
-    "webpack": "webpack --config webpack.config.js",
-    "postinstall": "npm run webpack",
-    "clean": "rimraf dist"
+    "build": "npm run webpack"
   },
   "dependencies": {
     "@nestjs/common": "^5.3.7",
