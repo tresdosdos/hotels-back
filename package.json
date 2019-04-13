@@ -10,7 +10,7 @@
     "start": "set NODE_ENV=dev&& nodemon",
     "test": "jest",
     "test:cov": "jest --coverage",
-    "build": "npm run webpack"
+    "build": "webpack --config webpack.config.js"
   },
   "dependencies": {
     "@nestjs/common": "^5.3.7",
