@@ -27,6 +27,13 @@ export class HotelService {
         return hotel.toJSON();
     }
 
+    public async getByParams(params) {
+        return await this.room.findAll({where: params, include: [this.user, {
+            model: this.hotel,
+            include: [this.image],
+        }]});
+    }
+
     public async list(userId: number): Promise<IHotel[]> {
         return await this.hotel.findAll({where: {userId}, include: [this.image, this.room]});
     }

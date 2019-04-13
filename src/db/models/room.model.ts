@@ -30,11 +30,11 @@ export default class Room extends Model<Room> {
 
     @Unique
     @AllowNull(false)
-    @Column({type: DataType.NUMERIC(5)})
+    @Column({type: DataType.NUMERIC(5), unique: 'room_uq'})
     number: number;
 
     @AllowNull(false)
-    @Column({type: DataType.NUMERIC(1)})
+    @Column
     numberOfPlaces: number;
 
     @AllowNull(false)

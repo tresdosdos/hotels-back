@@ -6,7 +6,7 @@ import {
     Param,
     ParseIntPipe,
     Post,
-    Put,
+    Put, Query,
     Req,
     Res, UploadedFile,
     UseGuards,
@@ -18,7 +18,6 @@ import {IHotel} from './interfaces';
 import {FileUploadInterceptor} from '../utils';
 
 @Controller('hotel')
-@UseGuards(JwtGuard)
 export class HotelController {
     constructor(private hotelService: HotelService) {}
 
@@ -28,6 +27,7 @@ export class HotelController {
     }
 
     @Get('user/:id')
+    @UseGuards(JwtGuard)
     public async list(@Param('id', new ParseIntPipe()) id, @Res() res) {
         const hotels = await this.hotelService.list(id);
 
@@ -35,11 +35,17 @@ export class HotelController {
     }
 
     @Get(':id')
-    public async getById(@Param('id', new ParseIntPipe()) id) {
+    public getById(@Param('id', new ParseIntPipe()) id) {
         return this.hotelService.getById(id);
     }
 
+    @Get()
+    public getByParams(@Query() query) {
+        return this.hotelService.getByParams(query);
+    }
+
     @Post()
+    @UseGuards(JwtGuard)
     public async createHotel(@Req() req, @Res() res) {
         const hotel =await this.hotelService.create(req.body, req.user.id);
 
@@ -47,16 +53,19 @@ export class HotelController {
     }
 
     @Put()
+    @UseGuards(JwtGuard)
     public updateHotel(@Body() hotel: IHotel) {
         return this.hotelService.update(hotel);
     }
 
     @Delete(':id')
+    @UseGuards(JwtGuard)
     public deleteHotel(@Param('id', new ParseIntPipe()) id) {
         return this.hotelService.delete(id);
     }
 
     @Post(':id/photo')
+    @UseGuards(JwtGuard)
     @UseInterceptors(FileUploadInterceptor)
     public uploadPhoto(
         @Param('id', new ParseIntPipe()) id,
