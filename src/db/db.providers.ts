@@ -26,7 +26,7 @@ export const databaseProviders = [
       sequelize.addModels([
         ..._.values(models),
       ]);
-      await sequelize.sync();
+      await sequelize.sync({force: Boolean(process.env.DB_SYNC)});
       return sequelize;
     },
   },
