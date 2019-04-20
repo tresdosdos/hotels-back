@@ -4,7 +4,7 @@ import {
     Column,
     DataType,
     ForeignKey, HasMany,
-    Model,
+    Model, PrimaryKey,
     Table,
     Unique,
 } from 'sequelize-typescript';
@@ -18,7 +18,11 @@ export default class Room extends Model<Room> {
     @ForeignKey(() => Hotel)
     hotelId: number;
 
-    @BelongsTo(() => Hotel)
+    @BelongsTo(() => Hotel, {
+        foreignKey: {
+            unique: 'room_unique',
+        },
+    })
     hotel: number;
 
     @BelongsToMany(() => User, () => Rent)
@@ -28,9 +32,8 @@ export default class Room extends Model<Room> {
     @Column
     floor: number;
 
-    @Unique
     @AllowNull(false)
-    @Column({type: DataType.NUMERIC(5), unique: 'room_uq'})
+    @Column({type: DataType.NUMERIC(5), unique: 'room_unique'})
     number: number;
 
     @AllowNull(false)

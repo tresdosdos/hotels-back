@@ -1,8 +1,10 @@
-import { BadRequestException, Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { Symbols } from '../symbols';
-import { Hotel, Image, Rent, Room, User } from '../db/models';
-import { IHotel } from './interfaces';
-import { HotelExistsError } from '../utils/errors';
+import * as _ from 'lodash';
+import {BadRequestException, Inject, Injectable, NotFoundException} from '@nestjs/common';
+import {Symbols} from '../symbols';
+import {Hotel, Image, Rent, Room, User} from '../db/models';
+import {IHotel} from './interfaces';
+import {HotelExistsError} from '../utils/errors';
+import {Sequelize} from 'sequelize-typescript';
 
 @Injectable()
 export class HotelService {
@@ -12,13 +14,16 @@ export class HotelService {
         @Inject(Symbols.Rent) private rent: typeof Rent,
         @Inject(Symbols.Image) private image: typeof Image,
         @Inject(Symbols.User) private user: typeof User,
-    ) {}
+    ) {
+    }
 
     public async getById(id: number): Promise<IHotel> {
-        const hotel = await this.hotel.findOne({where: {id}, include: [this.image, {
-            model: this.room,
+        const hotel = await this.hotel.findOne({
+            where: {id}, include: [this.image, {
+                model: this.room,
                 include: [this.user],
-            }]});
+            }],
+        });
 
         if (!hotel) {
             throw new HotelExistsError();
@@ -28,10 +33,39 @@ export class HotelService {
     }
 
     public async getByParams(params) {
-        return await this.room.findAll({where: params, include: [this.user, {
-            model: this.hotel,
-            include: [this.image],
-        }]});
+        const clearParams: any = {};
+
+        if (params.floor) {
+            clearParams.floor = params.floor;
+        }
+
+        if (params.cost) {
+            clearParams.cost = {
+                [Sequelize.Op.lte]: params.cost,
+            };
+        }
+
+        if (params.numberOfPlaces) {
+            clearParams.numberOfPlaces = {
+                [Sequelize.Op.lte]: params.numberOfPlaces,
+            };
+        }
+
+        let rooms = await this.room.findAll({
+            where: clearParams, include: [{
+                model: this.hotel,
+                include: [this.image],
+            }],
+        });
+
+        if (!params.city) {
+            return rooms;
+        }
+
+        rooms = rooms.map(room => room.toJSON());
+
+        // @ts-ignore
+        return rooms.filter(room => room.hotel.city === params.city);
     }
 
     public async list(userId: number): Promise<IHotel[]> {
@@ -85,10 +119,12 @@ export class HotelService {
         });
         await image.save();
 
-        const hotel = this.hotel.findOne({where: {id}, include: [this.image, {
+        const hotel = this.hotel.findOne({
+            where: {id}, include: [this.image, {
                 model: this.room,
                 include: [this.user],
-            }]});
+            }]
+        });
 
         return hotel.toJSON();
     }
