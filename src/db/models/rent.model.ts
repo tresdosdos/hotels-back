@@ -13,17 +13,25 @@ export default class Rent extends Model<Rent> {
     @ForeignKey(() => Room)
     roomId: number;
 
-    @BelongsTo(() => Room)
+    @BelongsTo(() => Room, {
+        foreignKey: {
+            unique: 'rent_unique',
+        },
+    })
     room: Room;
 
     @ForeignKey(() => User)
     userId: number;
 
-    @BelongsTo(() => User)
+    @BelongsTo(() => User, {
+        foreignKey: {
+            unique: 'rent_unique',
+        },
+    })
     user: User;
 
     @AllowNull(false)
-    @Column
+    @Column({unique: 'rent_unique'})
     startDate: Date;
 
     @AllowNull(false)
@@ -32,5 +40,17 @@ export default class Rent extends Model<Rent> {
 
     @AllowNull(false)
     @Column
+    passportNumber: string;
+
+    @AllowNull(false)
+    @Column
+    surname: string;
+
+    @AllowNull(false)
+    @Column
+    name: string;
+
+    @AllowNull(false)
+    @Column({unique: 'rent_unique'})
     endDate: Date;
 }

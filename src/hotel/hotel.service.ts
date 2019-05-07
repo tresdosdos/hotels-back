@@ -58,14 +58,19 @@ export class HotelService {
             }],
         });
 
-        if (!params.city) {
-            return rooms;
-        }
-
         rooms = rooms.map(room => room.toJSON());
 
-        // @ts-ignore
-        return rooms.filter(room => room.hotel.city === params.city);
+        if (params.city) {
+            // @ts-ignore
+            rooms = rooms.filter(room => room.hotel.city === params.city);
+        }
+
+        if (params.rating) {
+            // @ts-ignore
+            rooms = rooms.filter(room => room.hotel.rating === +params.rating);
+        }
+
+        return rooms;
     }
 
     public async list(userId: number): Promise<IHotel[]> {

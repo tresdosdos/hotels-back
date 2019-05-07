@@ -6,7 +6,7 @@ import {
     ForeignKey, HasMany, HasOne,
     IsEmail,
     Length,
-    Model, Sequelize,
+    Model,
     Table,
     Unique,
     UpdatedAt,

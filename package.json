@@ -8,6 +8,7 @@
     "format": "tslint --fix --project .",
     "start:prod": "node server.js",
     "start": "set NODE_ENV=dev&& nodemon",
+    "start:debug": "nodemon --config ynodemon-debug.json",
     "test": "jest",
     "test:cov": "jest --coverage",
     "build": "webpack --config webpack.config.js"
@@ -77,6 +78,6 @@
   },
   "engines": {
     "node": "10.9.0",
-    "npm": "6.4.1"
+    "npm": "6.2.0"
   }
 }
