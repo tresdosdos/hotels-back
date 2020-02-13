@@ -1,5 +1,5 @@
 import { FileInterceptor } from '@nestjs/common';
-import * as cloudinary from 'cloudinary';
+import { v2 as cloudinary } from 'cloudinary';
 import * as cloudinaryStorage from 'multer-storage-cloudinary';
 import { v1 as uuid } from 'uuid';
 

@@ -11,7 +11,7 @@
     "start:debug": "nodemon --config ynodemon-debug.json",
     "test": "jest",
     "test:cov": "jest --coverage",
-    "build": "webpack --config webpack.config.js --skipLibCheck"
+    "build": "webpack --config webpack.config.js"
   },
   "dependencies": {
     "@nestjs/common": "^5.3.7",
