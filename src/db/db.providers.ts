@@ -19,6 +19,7 @@ export const databaseProviders = [
         password: process.env.DB_PASSWORD,
         database: process.env.DB_NAME,
         logging: false,
+        ssl: true,
         operatorsAliases: {
           $gt: Sequelize.Op.gt,
         },
