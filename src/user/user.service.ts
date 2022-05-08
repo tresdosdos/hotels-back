@@ -43,9 +43,10 @@ export class UserService {
 
   public async createLocalUser(user) {
     const foundUser = await this.user.findOne({ where: { email: user.email } });
+    console.log(user);
     const newLocalUser = new this.localUser({
       password: user.password,
-      confirmed: false,
+      confirmed: true,
     });
 
     try {

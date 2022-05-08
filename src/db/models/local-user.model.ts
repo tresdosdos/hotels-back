@@ -28,6 +28,7 @@ export default class LocalUser extends Model<LocalUser> {
     type: DataType.VIRTUAL,
     set(val) {
       const salt = bcrypt.genSaltSync();
+      console.log(val, salt);
       const hash = bcrypt.hashSync(val, salt);
       this.setDataValue('hashedPassword', hash);
       this.setDataValue('password', val);

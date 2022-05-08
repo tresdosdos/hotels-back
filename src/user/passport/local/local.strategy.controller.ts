@@ -22,12 +22,8 @@ export class LocalStrategyController {
     @Post('signUp')
     async signUp(@Body() body: UserModel, @Res() res) {
         const user = await this.userService.createLocalUser(body);
-        const {id, email} = user;
-        await this.emailService.sendRegistrationMail({id, email});
-        const msg = `Registration request was sent to ${email}`;
-        this.logger.info(msg);
 
-        res.send({message: msg});
+        res.send(user);
     }
 
     @Post('signIn')
